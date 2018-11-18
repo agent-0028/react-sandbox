@@ -59,3 +59,7 @@ typings/
 
 # next.js build output
 .next
+
+# agent-0028 custom things
+.DS_Store
+
