@@ -1,0 +1,17 @@
+{
+  "extends": ["standard", "standard-react"],
+  "rules": {
+    "jsx-quotes": ["error", "prefer-double"]
+  },
+  "env": {
+    "jest": true
+  },
+  "globals": {
+    "fetch": true,
+    "localStorage": true,
+    "jest": true,
+    "spyOn": true,
+    "fail": true,
+    "context": true
+  }
+}
