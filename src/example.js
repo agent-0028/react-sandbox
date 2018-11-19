@@ -16,7 +16,7 @@ function Example (props) {
     <div>
       <h3>Example Component</h3>
       <button onClick={onButtonClick}>{buttonText}</button>
-      <div>
+      <div className="message">
         {loggedInStatusMessage}
       </div>
       { showLogOutButton ? <button onClick={onLogOutClick}>Log Out</button> : null }
@@ -31,7 +31,7 @@ Example.propTypes = {
   loggedInStatusMessage: PropTypes.string.isRequired,
   showLogOutButton: PropTypes.bool.isRequired,
   showLogInButton: PropTypes.bool.isRequired,
-  onLogInClick: PropTypes.bool.isRequired,
+  onLogInClick: PropTypes.func.isRequired,
   onLogOutClick: PropTypes.func.isRequired
 };
 
