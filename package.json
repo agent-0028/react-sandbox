@@ -29,10 +29,24 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/**/*.js"
+    "lint": "eslint ."
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ["standard", "standard-react", "react-app"],
+    "rules": {
+      "jsx-quotes": ["error", "prefer-double"]
+    },
+    "env": {
+      "jest": true
+    },
+    "globals": {
+      "fetch": true,
+      "localStorage": true,
+      "jest": true,
+      "spyOn": true,
+      "fail": true,
+      "context": true
+    }
   },
   "browserslist": [
     ">0.2%",
