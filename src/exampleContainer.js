@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
 import { logIn, logOut } from './actions/auth'
 import { LOGGED_OUT_TEXT, JUST_LOGGED_OUT_TEXT, LOGGED_IN_TEXT_PRE } from './constants'
 
@@ -46,11 +47,11 @@ const withHandlers = (ComponentToWrap) => {
       const { clickCount } = this.state
       const newCount = clickCount + 1
       this.setState({ clickCount: newCount })
-      window.alert(`Clicked: ${newCount}`)
     }
 
     render () {
       const { loggedIn, logIn, logOut } = this.props
+      const { clickCount } = this.state
       return (
         <ComponentToWrap
           onButtonClick={this.onButtonClick}
@@ -59,6 +60,7 @@ const withHandlers = (ComponentToWrap) => {
           showLogInButton={!loggedIn}
           onLogInClick={logIn}
           onLogOutClick={logOut}
+          numHearts={clickCount}
         />
       )
     }

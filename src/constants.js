@@ -6,7 +6,7 @@ export const AUTH_DEFAULT_STATE = {
 }
 deepFreeze(AUTH_DEFAULT_STATE)
 
-export const BUTTON_TEXT = 'Click to change local state on container!'
+export const BUTTON_TEXT = 'Click for green hearts!'
 export const LOG_IN_BUTTON_TEXT = 'Log In'
 export const LOG_OUT_BUTTON_TEXT = 'Log Out'
 export const LOGGED_OUT_TEXT = 'You are logged out.'

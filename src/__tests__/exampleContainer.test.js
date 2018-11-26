@@ -4,12 +4,10 @@ import { mount } from 'enzyme'
 import configureStore from 'redux-mock-store'
 
 describe('exampleContainer with Redux', () => {
-  let subject, SomeDumbComponent, WrappedComponent, initialState, store, mockLogIn, mockLogOut
+  let subject, SomeDumbComponent, ContainerComponent, initialState, store, mockLogIn, mockLogOut
 
   beforeEach(() => {
     jest.resetModules()
-
-    window.alert = jest.fn()
 
     initialState = {
       auth: {
@@ -40,31 +38,31 @@ describe('exampleContainer with Redux', () => {
     SomeDumbComponent = function (props) {
       return (<div>Dumb Component</div>)
     }
-    WrappedComponent = subject(SomeDumbComponent)
+    ContainerComponent = subject(SomeDumbComponent)
   })
 
   it('maps state to props', () => {
     const wrapper = mount(
       <Provider store={store}>
-        <WrappedComponent />
+        <ContainerComponent />
       </Provider>
     )
-    const wrappedComponentProps = wrapper.find('ExampleContainer').props()
+    const containerComponentProps = wrapper.find('ExampleContainer').props()
 
-    expect(wrappedComponentProps.loggedIn).toEqual(initialState.auth.loggedIn)
-    expect(wrappedComponentProps.token).toEqual(initialState.auth.token)
+    expect(containerComponentProps.loggedIn).toEqual(initialState.auth.loggedIn)
+    expect(containerComponentProps.token).toEqual(initialState.auth.token)
   })
 
   it('maps dispatch to props', () => {
     const wrapper = mount(
       <Provider store={store}>
-        <WrappedComponent />
+        <ContainerComponent />
       </Provider>
     )
-    const wrappedComponentProps = wrapper.find('ExampleContainer').props()
+    const containerComponentProps = wrapper.find('ExampleContainer').props()
 
-    wrappedComponentProps.logIn()
-    wrappedComponentProps.logOut()
+    containerComponentProps.logIn()
+    containerComponentProps.logOut()
 
     expect(mockLogIn).toHaveBeenCalledTimes(1)
     expect(mockLogOut).toHaveBeenCalledTimes(1)

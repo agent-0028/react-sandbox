@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { shallow } from 'enzyme'
+
 import { BUTTON_TEXT, LOG_IN_BUTTON_TEXT, LOG_OUT_BUTTON_TEXT } from '../constants'
 
 describe('Example', () => {
@@ -13,7 +14,8 @@ describe('Example', () => {
       showLogInButton: false,
       showLogOutButton: false,
       onLogInClick: () => {},
-      onLogOutClick: () => {}
+      onLogOutClick: () => {},
+      numHearts: 0
     }
 
     Subject = require('../example').Example
@@ -51,7 +53,7 @@ describe('Example', () => {
     wrapper = shallow(
       <Subject {...defaultProps} />
     )
-    const found = wrapper.find('div.message')
+    const found = wrapper.find('div.logged-in-status-message')
 
     expect(found.text()).toEqual(defaultProps.loggedInStatusMessage)
   })
@@ -72,6 +74,28 @@ describe('Example', () => {
     const found = wrapper.find('button').findWhere((n) => n.text() === LOG_OUT_BUTTON_TEXT)
 
     expect(found.exists()).toEqual(false)
+  })
+
+  it('does not render any hearts', () => {
+    wrapper = shallow(
+      <Subject {...defaultProps} />
+    )
+    const found = wrapper.find('.hearts')
+
+    expect(found.children().exists()).toEqual(false)
+  })
+
+  context('when numHearts is three', () => {
+    it('renders three hearts', () => {
+      testProps = { ...defaultProps }
+      testProps.numHearts = 3
+      wrapper = shallow(
+        <Subject {...testProps} />
+      )
+      const found = wrapper.find('.green-heart')
+
+      expect(found.length).toEqual(3)
+    })
   })
 
   context('when showLogInButton is true', () => {

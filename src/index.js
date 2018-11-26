@@ -2,7 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import './index.css'
+
+import './skeleton.css'
+
 import reducers from './reducers'
 import Example from './example'
 

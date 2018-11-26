@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { mount } from 'enzyme'
+
 import { LOGGED_OUT_TEXT, JUST_LOGGED_OUT_TEXT, LOGGED_IN_TEXT_PRE } from '../constants'
 
 describe('withHandlers', () => {
-  let subject, defaultProps, testProps, SomeDumbComponent, WrappedComponent, wrapper
+  let subject, defaultProps, testProps, SomeDumbComponent, ContainerComponent, dumbComponentProps, wrapper
 
   beforeEach(() => {
     window.alert = jest.fn()
@@ -20,24 +21,22 @@ describe('withHandlers', () => {
       return (<div>Dumb Component</div>)
     }
 
-    WrappedComponent = subject(SomeDumbComponent)
+    ContainerComponent = subject(SomeDumbComponent)
   })
 
   it('renders without crashing', () => {
     const div = document.createElement('div')
     ReactDOM.render(
-      <WrappedComponent {...defaultProps} />,
+      <ContainerComponent {...defaultProps} />,
       div
     )
   })
 
   context('when component first mounts', () => {
-    let wrappedComponentProps
-
     describe('initial local state', () => {
       beforeEach(() => {
         wrapper = mount(
-          <WrappedComponent {...defaultProps} />
+          <ContainerComponent {...defaultProps} />
         )
       })
 
@@ -56,30 +55,34 @@ describe('withHandlers', () => {
         testProps.logOut = jest.fn()
 
         wrapper = mount(
-          <WrappedComponent {...testProps} />
+          <ContainerComponent {...testProps} />
         )
 
-        wrappedComponentProps = wrapper.find('SomeDumbComponent').props()
+        dumbComponentProps = wrapper.find('SomeDumbComponent').props()
       })
 
       it('provides a click handler for this silly button', () => {
-        wrappedComponentProps.onButtonClick()
+        dumbComponentProps.onButtonClick()
 
         expect(wrapper.state('clickCount')).toEqual(1)
       })
 
       it('provides a logged in status message from local state', () => {
-        expect(wrappedComponentProps.loggedInStatusMessage).toEqual(wrapper.state('loggedInStatusMessage'))
+        expect(dumbComponentProps.loggedInStatusMessage).toEqual(wrapper.state('loggedInStatusMessage'))
       })
 
       it('tells the wrapped component not to show the log out button', () => {
-        expect(wrappedComponentProps.showLogOutButton).toEqual(false)
+        expect(dumbComponentProps.showLogOutButton).toEqual(false)
       })
 
       it('provides a log out click handler from props', () => {
-        wrappedComponentProps.onLogOutClick()
+        dumbComponentProps.onLogOutClick()
 
         expect(testProps.logOut).toHaveBeenCalledTimes(1)
+      })
+
+      it('tells the wrapped component how many hearts to render', () => {
+        expect(dumbComponentProps.numHearts).toEqual(0)
       })
     })
 
@@ -91,18 +94,18 @@ describe('withHandlers', () => {
           testProps.token = 'some-token'
 
           wrapper = mount(
-            <WrappedComponent {...testProps} />
+            <ContainerComponent {...testProps} />
           )
 
-          wrappedComponentProps = wrapper.find('SomeDumbComponent').props()
+          dumbComponentProps = wrapper.find('SomeDumbComponent').props()
         })
 
         it('provides a logged in status message with token', () => {
-          expect(wrappedComponentProps.loggedInStatusMessage).toEqual(`${LOGGED_IN_TEXT_PRE}"some-token"`)
+          expect(dumbComponentProps.loggedInStatusMessage).toEqual(`${LOGGED_IN_TEXT_PRE}"some-token"`)
         })
 
         it('tells the wrapped component to show the log out button', () => {
-          expect(wrappedComponentProps.showLogOutButton).toEqual(true)
+          expect(dumbComponentProps.showLogOutButton).toEqual(true)
         })
       })
     })
@@ -115,7 +118,7 @@ describe('withHandlers', () => {
         testProps.loggedIn = true
 
         wrapper = mount(
-          <WrappedComponent {...testProps} />
+          <ContainerComponent {...testProps} />
         )
 
         wrapper.setProps({ loggedIn: false })
@@ -130,12 +133,30 @@ describe('withHandlers', () => {
         testProps.loggedIn = false
 
         wrapper = mount(
-          <WrappedComponent {...testProps} />
+          <ContainerComponent {...testProps} />
         )
 
         wrapper.setProps({ loggedIn: true, token: 'some-other-token' })
 
         expect(wrapper.state('loggedInStatusMessage')).toEqual(`${LOGGED_IN_TEXT_PRE}"some-other-token"`)
+      })
+    })
+  })
+
+  context('when there are three clicks', () => {
+    describe('wrapped component props', () => {
+      beforeEach(() => {
+        testProps = { ...defaultProps }
+
+        wrapper = mount(
+          <ContainerComponent {...testProps} />
+        )
+        wrapper.setState({ clickCount: 3 })
+      })
+
+      it('tells the wrapped component to render three hearts', () => {
+        const foo = wrapper.find('SomeDumbComponent')
+        expect(foo.prop('numHearts')).toEqual(3)
       })
     })
   })
