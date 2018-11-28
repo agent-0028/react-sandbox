@@ -4,11 +4,9 @@ import { mount } from 'enzyme'
 import configureStore from 'redux-mock-store'
 
 describe('exampleContainer with Redux', () => {
-  let subject, SomeDumbComponent, ContainerComponent, initialState, store, mockLogIn, mockLogOut
+  let subject, SomeDumbComponent, ContainerComponent, initialState, store, authActions
 
   beforeEach(() => {
-    jest.resetModules()
-
     initialState = {
       auth: {
         loggedIn: true,
@@ -18,21 +16,7 @@ describe('exampleContainer with Redux', () => {
     const mockStore = configureStore()
     store = mockStore(initialState)
 
-    mockLogIn = jest.fn(() => {
-      return {
-        type: 'SOME_TYPE'
-      }
-    })
-    mockLogOut = jest.fn(() => {
-      return {
-        type: 'SOME_OTHER_TYPE'
-      }
-    })
-    const mockAuthActionsModule = {
-      logIn: mockLogIn,
-      logOut: mockLogOut
-    }
-    jest.setMock('../actions/auth', mockAuthActionsModule)
+    authActions = td.replace('../actions/auth')
 
     subject = require('../exampleContainer').default
     SomeDumbComponent = function (props) {
@@ -53,18 +37,43 @@ describe('exampleContainer with Redux', () => {
     expect(containerComponentProps.token).toEqual(initialState.auth.token)
   })
 
-  it('maps dispatch to props', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <ContainerComponent />
-      </Provider>
-    )
-    const containerComponentProps = wrapper.find('ExampleContainer').props()
+  describe('actions', () => {
+    let containerComponentProps
+    beforeEach(() => {
+      const wrapper = mount(
+        <Provider store={store}>
+          <ContainerComponent />
+        </Provider>
+      )
 
-    containerComponentProps.logIn()
-    containerComponentProps.logOut()
+      containerComponentProps = wrapper.find('ExampleContainer').props()
+    })
+    it('maps dispatch of logIn to props', () => {
+      td.when(authActions.logIn()).thenReturn({
+        type: 'SOME_ACTION'
+      })
 
-    expect(mockLogIn).toHaveBeenCalledTimes(1)
-    expect(mockLogOut).toHaveBeenCalledTimes(1)
+      containerComponentProps.logIn()
+
+      const actions = store.getActions()
+
+      expect(actions[0]).toEqual({
+        type: 'SOME_ACTION'
+      })
+    })
+
+    it('maps dispatch of logOut to props', () => {
+      td.when(authActions.logOut()).thenReturn({
+        type: 'SOME_OTHER_ACTION'
+      })
+
+      containerComponentProps.logOut()
+
+      const actions = store.getActions()
+
+      expect(actions[0]).toEqual({
+        type: 'SOME_OTHER_ACTION'
+      })
+    })
   })
 })
