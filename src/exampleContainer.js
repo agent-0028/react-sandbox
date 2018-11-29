@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { logIn, logOut } from './actions/auth'
-import { LOGGED_OUT_TEXT, JUST_LOGGED_OUT_TEXT, LOGGED_IN_TEXT_PRE } from './constants'
+import { logIn, logOut } from './actions/async/auth'
+import { FAKE_TOKEN, LOGGED_OUT_TEXT, JUST_LOGGED_OUT_TEXT, LOGGED_IN_TEXT_PRE } from './constants'
 
 const withHandlers = (ComponentToWrap) => {
   class ExampleContainer extends React.Component {
@@ -19,11 +19,10 @@ const withHandlers = (ComponentToWrap) => {
     }
 
     componentDidMount () {
-      const { loggedIn, token } = this.props
-
+      const { loggedIn, name } = this.props
       if (loggedIn) {
         this.setState({
-          loggedInStatusMessage: `${LOGGED_IN_TEXT_PRE}"${token}"`
+          loggedInStatusMessage: `${LOGGED_IN_TEXT_PRE}"${name}"`
         })
       }
     }
@@ -38,7 +37,7 @@ const withHandlers = (ComponentToWrap) => {
         })
       } else if (nextProps.loggedIn) {
         this.setState({
-          loggedInStatusMessage: `${LOGGED_IN_TEXT_PRE}"${nextProps.token}"`
+          loggedInStatusMessage: `${LOGGED_IN_TEXT_PRE}"${nextProps.name}"`
         })
       }
     }
@@ -51,11 +50,11 @@ const withHandlers = (ComponentToWrap) => {
 
     render () {
       const { loggedIn, logIn, logOut } = this.props
-      const { clickCount } = this.state
+      const { clickCount, loggedInStatusMessage } = this.state
       return (
         <ComponentToWrap
           onButtonClick={this.onButtonClick}
-          loggedInStatusMessage={this.state.loggedInStatusMessage}
+          loggedInStatusMessage={loggedInStatusMessage}
           showLogOutButton={loggedIn}
           showLogInButton={!loggedIn}
           onLogInClick={logIn}
@@ -70,7 +69,7 @@ const withHandlers = (ComponentToWrap) => {
     logIn: PropTypes.func.isRequired,
     logOut: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    token: PropTypes.string
+    name: PropTypes.string
   }
 
   return ExampleContainer
@@ -79,7 +78,8 @@ const withHandlers = (ComponentToWrap) => {
 const mapStateToProps = (state) => {
   return {
     loggedIn: state.auth.loggedIn,
-    token: state.auth.token
+    token: state.auth.token,
+    name: state.auth.name
   }
 }
 
@@ -89,7 +89,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(logOut())
     },
     logIn: () => {
-      return dispatch(logIn())
+      return dispatch(logIn(FAKE_TOKEN))
     }
   }
 }

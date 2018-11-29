@@ -91,7 +91,7 @@ describe('withHandlers', () => {
         beforeEach(() => {
           testProps = { ...defaultProps }
           testProps.loggedIn = true
-          testProps.token = 'some-token'
+          testProps.name = 'Jane Doe'
 
           wrapper = mount(
             <ContainerComponent {...testProps} />
@@ -100,8 +100,8 @@ describe('withHandlers', () => {
           dumbComponentProps = wrapper.find('SomeDumbComponent').props()
         })
 
-        it('provides a logged in status message with token', () => {
-          expect(dumbComponentProps.loggedInStatusMessage).toEqual(`${LOGGED_IN_TEXT_PRE}"some-token"`)
+        it("provides a logged in status message with the user's name", () => {
+          expect(dumbComponentProps.loggedInStatusMessage).toEqual(`${LOGGED_IN_TEXT_PRE}"Jane Doe"`)
         })
 
         it('tells the wrapped component to show the log out button', () => {
@@ -128,7 +128,7 @@ describe('withHandlers', () => {
     })
 
     context('when props change from logged out to logged in', () => {
-      it('provides a logged in status message with token', () => {
+      it("provides a logged in status message with the user's name", () => {
         testProps = { ...defaultProps }
         testProps.loggedIn = false
 
@@ -136,9 +136,9 @@ describe('withHandlers', () => {
           <ContainerComponent {...testProps} />
         )
 
-        wrapper.setProps({ loggedIn: true, token: 'some-other-token' })
+        wrapper.setProps({ loggedIn: true, name: 'John Doe' })
 
-        expect(wrapper.state('loggedInStatusMessage')).toEqual(`${LOGGED_IN_TEXT_PRE}"some-other-token"`)
+        expect(wrapper.state('loggedInStatusMessage')).toEqual(`${LOGGED_IN_TEXT_PRE}"John Doe"`)
       })
     })
   })
