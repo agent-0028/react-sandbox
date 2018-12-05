@@ -2,6 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import configureStore from 'redux-mock-store'
+import { FAKE_TOKEN } from '../constants'
 
 describe('exampleContainer with Redux', () => {
   let subject, SomeDumbComponent, ContainerComponent, initialState, store, authActions
@@ -16,7 +17,7 @@ describe('exampleContainer with Redux', () => {
     const mockStore = configureStore()
     store = mockStore(initialState)
 
-    authActions = td.replace('../actions/auth')
+    authActions = td.replace('../actions/async/auth')
 
     subject = require('../exampleContainer').default
     SomeDumbComponent = function (props) {
@@ -49,7 +50,7 @@ describe('exampleContainer with Redux', () => {
       containerComponentProps = wrapper.find('ExampleContainer').props()
     })
     it('maps dispatch of logIn to props', () => {
-      td.when(authActions.logIn()).thenReturn({
+      td.when(authActions.logIn(FAKE_TOKEN)).thenReturn({
         type: 'SOME_ACTION'
       })
 

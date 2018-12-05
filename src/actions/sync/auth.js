@@ -1,7 +1,9 @@
-export const logIn = () => {
+export const logIn = (authData) => {
+  const { token, name } = authData
   return {
     type: 'LOG_IN',
-    token: 'token-thing'
+    token,
+    name
   }
 }
 
