@@ -37,7 +37,7 @@ describe('Example', () => {
 
   it('renders a button with a click handler', () => {
     testProps = { ...defaultProps }
-    testProps.onButtonClick = jest.fn()
+    testProps.onButtonClick = td.func()
     wrapper = shallow(
       <Subject {...testProps} />
     )
@@ -46,7 +46,7 @@ describe('Example', () => {
 
     handler()
 
-    expect(testProps.onButtonClick).toHaveBeenCalledTimes(1)
+    td.verify(testProps.onButtonClick(), { times: 1 })
   })
 
   it('renders the logged in status message', () => {
@@ -102,7 +102,7 @@ describe('Example', () => {
     beforeEach(() => {
       testProps = { ...defaultProps }
       testProps.showLogInButton = true
-      testProps.onLogInClick = jest.fn()
+      testProps.onLogInClick = td.func()
     })
 
     it('renders a button that handles log in', () => {
@@ -115,7 +115,7 @@ describe('Example', () => {
       handler()
 
       expect(found.text()).toEqual(LOG_IN_BUTTON_TEXT)
-      expect(testProps.onLogInClick).toHaveBeenCalledTimes(1)
+      td.verify(testProps.onLogInClick(), { times: 1 })
     })
   })
 
@@ -123,7 +123,7 @@ describe('Example', () => {
     beforeEach(() => {
       testProps = { ...defaultProps }
       testProps.showLogOutButton = true
-      testProps.onLogOutClick = jest.fn()
+      testProps.onLogOutClick = td.func()
     })
 
     it('renders a button that handles log out', () => {
@@ -135,7 +135,7 @@ describe('Example', () => {
 
       handler()
 
-      expect(testProps.onLogOutClick).toHaveBeenCalledTimes(1)
+      td.verify(testProps.onLogOutClick(), { times: 1 })
     })
   })
 })
