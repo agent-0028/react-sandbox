@@ -8,8 +8,6 @@ describe('withHandlers', () => {
   let subject, defaultProps, testProps, SomeDumbComponent, ContainerComponent, dumbComponentProps, wrapper
 
   beforeEach(() => {
-    window.alert = jest.fn()
-
     defaultProps = {
       logIn: () => {},
       logOut: () => {},
@@ -52,7 +50,7 @@ describe('withHandlers', () => {
     describe('wrapped component props', () => {
       beforeEach(() => {
         testProps = { ...defaultProps }
-        testProps.logOut = jest.fn()
+        testProps.logOut = td.func()
 
         wrapper = mount(
           <ContainerComponent {...testProps} />
@@ -78,7 +76,7 @@ describe('withHandlers', () => {
       it('provides a log out click handler from props', () => {
         dumbComponentProps.onLogOutClick()
 
-        expect(testProps.logOut).toHaveBeenCalledTimes(1)
+        td.verify(testProps.logOut(), { times: 1 })
       })
 
       it('tells the wrapped component how many hearts to render', () => {
