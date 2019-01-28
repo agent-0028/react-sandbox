@@ -26,15 +26,6 @@ describe('Example', () => {
     ReactDOM.render(<Subject {...defaultProps} />, div)
   })
 
-  it('renders a button with text', () => {
-    wrapper = shallow(
-      <Subject {...defaultProps} />
-    )
-    const found = wrapper.find('button').findWhere((n) => n.text() === BUTTON_TEXT)
-
-    expect(found.exists()).toEqual(true)
-  })
-
   it('renders a button with a click handler', () => {
     testProps = { ...defaultProps }
     testProps.onButtonClick = td.func()
@@ -46,6 +37,7 @@ describe('Example', () => {
 
     handler()
 
+    expect(found.text()).toEqual(BUTTON_TEXT)
     td.verify(testProps.onButtonClick(), { times: 1 })
   })
 
@@ -62,7 +54,7 @@ describe('Example', () => {
     wrapper = shallow(
       <Subject {...defaultProps} />
     )
-    const found = wrapper.find({ onClick: testProps.onLogInClick })
+    const found = wrapper.find('button').findWhere((n) => n.text() === LOG_IN_BUTTON_TEXT)
 
     expect(found.exists()).toEqual(false)
   })
@@ -135,6 +127,7 @@ describe('Example', () => {
 
       handler()
 
+      expect(found.text()).toEqual(LOG_OUT_BUTTON_TEXT)
       td.verify(testProps.onLogOutClick(), { times: 1 })
     })
   })
