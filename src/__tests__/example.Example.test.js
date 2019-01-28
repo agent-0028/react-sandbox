@@ -101,12 +101,11 @@ describe('Example', () => {
       wrapper = shallow(
         <Subject {...testProps} />
       )
-      const found = wrapper.find({ onClick: testProps.onLogInClick })
-      const handler = found.prop('onClick')
+      const found = wrapper.find('button').findWhere((n) => n.text() === LOG_IN_BUTTON_TEXT)
+      const handler = found.get(0).props['onClick']
 
       handler()
 
-      expect(found.text()).toEqual(LOG_IN_BUTTON_TEXT)
       td.verify(testProps.onLogInClick(), { times: 1 })
     })
   })
