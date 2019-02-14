@@ -77,16 +77,16 @@ describe('Example', () => {
     expect(found.children().exists()).toEqual(false)
   })
 
-  context('when numHearts is three', () => {
-    it('renders three hearts', () => {
+  context('when numHearts is five', () => {
+    it('renders five hearts', () => {
       testProps = { ...defaultProps }
-      testProps.numHearts = 3
+      testProps.numHearts = 5
       wrapper = shallow(
         <Subject {...testProps} />
       )
       const found = wrapper.find('.green-heart')
 
-      expect(found.length).toEqual(3)
+      expect(found.length).toEqual(5)
     })
   })
 
