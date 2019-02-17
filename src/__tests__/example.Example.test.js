@@ -26,15 +26,6 @@ describe('Example', () => {
     ReactDOM.render(<Subject {...defaultProps} />, div)
   })
 
-  it('renders a button with text', () => {
-    wrapper = shallow(
-      <Subject {...defaultProps} />
-    )
-    const found = wrapper.find('button').findWhere((n) => n.text() === BUTTON_TEXT)
-
-    expect(found.exists()).toEqual(true)
-  })
-
   it('renders a button with a click handler', () => {
     testProps = { ...defaultProps }
     testProps.onButtonClick = td.func()
@@ -46,6 +37,7 @@ describe('Example', () => {
 
     handler()
 
+    expect(found.text()).toEqual(BUTTON_TEXT)
     td.verify(testProps.onButtonClick(), { times: 1 })
   })
 
@@ -62,7 +54,7 @@ describe('Example', () => {
     wrapper = shallow(
       <Subject {...defaultProps} />
     )
-    const found = wrapper.find({ onClick: testProps.onLogInClick })
+    const found = wrapper.find('button').findWhere((n) => n.text() === LOG_IN_BUTTON_TEXT)
 
     expect(found.exists()).toEqual(false)
   })
@@ -85,16 +77,16 @@ describe('Example', () => {
     expect(found.children().exists()).toEqual(false)
   })
 
-  context('when numHearts is three', () => {
-    it('renders three hearts', () => {
+  context('when numHearts is five', () => {
+    it('renders five hearts', () => {
       testProps = { ...defaultProps }
-      testProps.numHearts = 3
+      testProps.numHearts = 5
       wrapper = shallow(
         <Subject {...testProps} />
       )
       const found = wrapper.find('.green-heart')
 
-      expect(found.length).toEqual(3)
+      expect(found.length).toEqual(5)
     })
   })
 
@@ -109,12 +101,11 @@ describe('Example', () => {
       wrapper = shallow(
         <Subject {...testProps} />
       )
-      const found = wrapper.find({ onClick: testProps.onLogInClick })
-      const handler = found.prop('onClick')
+      const found = wrapper.find('button').findWhere((n) => n.text() === LOG_IN_BUTTON_TEXT)
+      const handler = found.get(0).props['onClick']
 
       handler()
 
-      expect(found.text()).toEqual(LOG_IN_BUTTON_TEXT)
       td.verify(testProps.onLogInClick(), { times: 1 })
     })
   })
@@ -135,6 +126,7 @@ describe('Example', () => {
 
       handler()
 
+      expect(found.text()).toEqual(LOG_OUT_BUTTON_TEXT)
       td.verify(testProps.onLogOutClick(), { times: 1 })
     })
   })
