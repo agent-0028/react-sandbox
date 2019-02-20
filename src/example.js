@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import './example.css'
-import logo from './td-pride-logo.svg'
 import greenHeart from './Emojione_1F49A.svg'
 
 import withStateAndHandlers from './exampleContainer'
@@ -22,7 +21,6 @@ function Example (props) {
   return (
     <div className="example">
       <header className="example-header">
-        <img src={logo} className="td-logo" alt="test double logo" />
         <div className="hearts">{hearts}</div>
         <h3>Example Component</h3>
 
