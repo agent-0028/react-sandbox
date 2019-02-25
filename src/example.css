@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-.td-logo {
-  animation: logo-effect infinite 15s linear;
-  height: 40vmin;
-}
-
 .green-heart {
   height: 2em;
 }
@@ -34,11 +29,3 @@
 button {
   background: #eeeeee;
 }
-
-@keyframes logo-effect {
-  0% { filter: hue-rotate(0deg); }
-  25% { filter: hue-rotate(0deg); }
-  50% { filter: hue-rotate(360deg); }
-  100% { filter: hue-rotate(360deg); }
-}
-
