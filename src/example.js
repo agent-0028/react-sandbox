@@ -20,8 +20,9 @@ function Example (props) {
   return (
     <div className="example">
       <header className="example-header">
-        <div className="green-hearts" data-jest="hearts">{ renderHearts(numHearts) }</div>
         <h3>Example Component</h3>
+
+        <div className="green-hearts" data-jest="hearts">{ renderHearts(numHearts) }</div>
 
         <button className="add-hearts" data-jest="add-hearts-button" onClick={onButtonClick}>{BUTTON_TEXT}</button>
         <div className="logged-in-status-message" data-jest="logged-in-status-message">

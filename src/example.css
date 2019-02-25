@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.green-hearts {
+  min-height: 3em;
+}
+
 .green-heart {
   height: 2em;
 }
