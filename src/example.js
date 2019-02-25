@@ -17,30 +17,27 @@ function Example (props) {
     onLogOutClick,
     numHearts
   } = props
-  const hearts = renderHearts(numHearts)
   return (
     <div className="example">
       <header className="example-header">
-        <div className="hearts">{hearts}</div>
+        <div className="green-hearts" data-jest="hearts">{ renderHearts(numHearts) }</div>
         <h3>Example Component</h3>
 
-        <button className="add-hearts" onClick={onButtonClick}>{BUTTON_TEXT}</button>
-        <div className="logged-in-status-message">
+        <button className="add-hearts" data-jest="add-hearts-button" onClick={onButtonClick}>{BUTTON_TEXT}</button>
+        <div className="logged-in-status-message" data-jest="logged-in-status-message">
           {loggedInStatusMessage}
         </div>
-        { showLogInButton ? <button className="log-in" onClick={onLogInClick}>{LOG_IN_BUTTON_TEXT}</button> : null }
-        { showLogOutButton ? <button className="log-out" onClick={onLogOutClick}>{LOG_OUT_BUTTON_TEXT}</button> : null }
+        { showLogInButton ? <button className="log-in" data-jest="log-in-button" onClick={onLogInClick}>{LOG_IN_BUTTON_TEXT}</button> : null }
+        { showLogOutButton ? <button className="log-out" data-jest="log-out-button" onClick={onLogOutClick}>{LOG_OUT_BUTTON_TEXT}</button> : null }
       </header>
     </div>
   )
 }
 
 function renderHearts (numHearts = 0) {
-  const hearts = []
-  for (let index = 1; index <= numHearts; index++) {
-    hearts.push(<img src={greenHeart} key={index} className="green-heart" alt="green heart" />)
-  }
-  return hearts
+  return [...Array(numHearts)].map((_, index) => {
+    return (<img src={greenHeart} key={index} className="green-heart" data-jest="green-heart" alt="green heart" />)
+  })
 }
 
 Example.propTypes = {

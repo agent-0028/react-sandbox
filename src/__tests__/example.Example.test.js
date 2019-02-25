@@ -32,10 +32,10 @@ describe('Example', () => {
     wrapper = shallow(
       <Subject {...testProps} />
     )
-    const found = wrapper.find({ onClick: testProps.onButtonClick })
-    const handler = found.prop('onClick')
 
-    handler()
+    const found = wrapper.find('[data-jest="add-hearts-button"]')
+
+    found.simulate('click')
 
     expect(found.text()).toEqual(BUTTON_TEXT)
     td.verify(testProps.onButtonClick(), { times: 1 })
@@ -45,7 +45,7 @@ describe('Example', () => {
     wrapper = shallow(
       <Subject {...defaultProps} />
     )
-    const found = wrapper.find('div.logged-in-status-message')
+    const found = wrapper.find('[data-jest="logged-in-status-message"]')
 
     expect(found.text()).toEqual(defaultProps.loggedInStatusMessage)
   })
@@ -54,7 +54,8 @@ describe('Example', () => {
     wrapper = shallow(
       <Subject {...defaultProps} />
     )
-    const found = wrapper.find('button').findWhere((n) => n.text() === LOG_IN_BUTTON_TEXT)
+
+    const found = wrapper.find('[data-jest="log-in-button"]')
 
     expect(found.exists()).toEqual(false)
   })
@@ -63,7 +64,7 @@ describe('Example', () => {
     wrapper = shallow(
       <Subject {...defaultProps} />
     )
-    const found = wrapper.find('button').findWhere((n) => n.text() === LOG_OUT_BUTTON_TEXT)
+    const found = wrapper.find('[data-jest="log-out-button"]')
 
     expect(found.exists()).toEqual(false)
   })
@@ -72,7 +73,7 @@ describe('Example', () => {
     wrapper = shallow(
       <Subject {...defaultProps} />
     )
-    const found = wrapper.find('.hearts')
+    const found = wrapper.find('[data-jest="green-hearts"]')
 
     expect(found.children().exists()).toEqual(false)
   })
@@ -84,7 +85,7 @@ describe('Example', () => {
       wrapper = shallow(
         <Subject {...testProps} />
       )
-      const found = wrapper.find('.green-heart')
+      const found = wrapper.find('[data-jest="green-heart"]')
 
       expect(found.length).toEqual(5)
     })
@@ -101,11 +102,11 @@ describe('Example', () => {
       wrapper = shallow(
         <Subject {...testProps} />
       )
-      const found = wrapper.find('button').findWhere((n) => n.text() === LOG_IN_BUTTON_TEXT)
-      const handler = found.get(0).props['onClick']
+      const found = wrapper.find('[data-jest="log-in-button"]')
 
-      handler()
+      found.simulate('click')
 
+      expect(found.text()).toEqual(LOG_IN_BUTTON_TEXT)
       td.verify(testProps.onLogInClick(), { times: 1 })
     })
   })
@@ -121,10 +122,9 @@ describe('Example', () => {
       wrapper = shallow(
         <Subject {...testProps} />
       )
-      const found = wrapper.find({ onClick: testProps.onLogOutClick })
-      const handler = found.prop('onClick')
+      const found = wrapper.find('[data-jest="log-out-button"]')
 
-      handler()
+      found.simulate('click')
 
       expect(found.text()).toEqual(LOG_OUT_BUTTON_TEXT)
       td.verify(testProps.onLogOutClick(), { times: 1 })
