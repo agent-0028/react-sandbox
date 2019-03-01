@@ -141,7 +141,7 @@ describe('withHandlers', () => {
     })
   })
 
-  context('when there are three clicks', () => {
+  context('when there are five clicks', () => {
     describe('wrapped component props', () => {
       beforeEach(() => {
         testProps = { ...defaultProps }
@@ -149,12 +149,12 @@ describe('withHandlers', () => {
         wrapper = mount(
           <ContainerComponent {...testProps} />
         )
-        wrapper.setState({ clickCount: 3 })
+        wrapper.setState({ clickCount: 5 })
       })
 
-      it('tells the wrapped component to render three hearts', () => {
+      it('tells the wrapped component to render five hearts', () => {
         const foo = wrapper.find('SomeDumbComponent')
-        expect(foo.prop('numHearts')).toEqual(3)
+        expect(foo.prop('numHearts')).toEqual(5)
       })
     })
   })
