@@ -157,8 +157,8 @@ describe('withHandlers', () => {
       })
 
       it('tells the wrapped component to render five hearts', () => {
-        const foo = wrapper.find('SomeDumbComponent')
-        expect(foo.prop('numHearts')).toEqual(5)
+        const found = wrapper.find('SomeDumbComponent')
+        expect(found.prop('numHearts')).toEqual(5)
       })
     })
   })
