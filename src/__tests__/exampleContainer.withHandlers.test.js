@@ -38,6 +38,10 @@ describe('withHandlers', () => {
         )
       })
 
+      it('sets logged in to false', () => {
+        expect(wrapper.state('loggedIn')).toEqual(false)
+      })
+
       it('sets click count to zero', () => {
         expect(wrapper.state('clickCount')).toEqual(0)
       })

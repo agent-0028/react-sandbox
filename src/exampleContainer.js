@@ -11,6 +11,7 @@ const withHandlers = (ComponentToWrap) => {
       super(props)
 
       this.state = {
+        loggedIn: false,
         clickCount: 0,
         loggedInStatusMessage: LOGGED_OUT_TEXT
       }
@@ -18,28 +19,19 @@ const withHandlers = (ComponentToWrap) => {
       this.onButtonClick = this.onButtonClick.bind(this)
     }
 
-    componentDidMount () {
-      const { loggedIn, name } = this.props
-      if (loggedIn) {
-        this.setState({
-          loggedInStatusMessage: `${LOGGED_IN_TEXT_PRE}"${name}"`
-        })
-      }
-    }
-
-    componentWillReceiveProps (nextProps) {
-      const { loggedIn } = this.props
-      const justLoggedOut = (loggedIn && !nextProps.loggedIn)
+    static getDerivedStateFromProps (props, state) {
+      const derivedState = { ...state }
+      const { loggedIn, name } = props
+      const justLoggedOut = (state.loggedIn && !loggedIn)
 
       if (justLoggedOut) {
-        this.setState({
-          loggedInStatusMessage: JUST_LOGGED_OUT_TEXT
-        })
-      } else if (nextProps.loggedIn) {
-        this.setState({
-          loggedInStatusMessage: `${LOGGED_IN_TEXT_PRE}"${nextProps.name}"`
-        })
+        derivedState.loggedInStatusMessage = JUST_LOGGED_OUT_TEXT
+      } else if (loggedIn) {
+        derivedState.loggedInStatusMessage = `${LOGGED_IN_TEXT_PRE}"${name}"`
+        derivedState.loggedIn = loggedIn
       }
+
+      return derivedState
     }
 
     onButtonClick () {
@@ -69,7 +61,7 @@ const withHandlers = (ComponentToWrap) => {
     logIn: PropTypes.func.isRequired,
     logOut: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    name: PropTypes.string
+    name: PropTypes.string // eslint-disable-line react/no-unused-prop-types
   }
 
   return ExampleContainer
