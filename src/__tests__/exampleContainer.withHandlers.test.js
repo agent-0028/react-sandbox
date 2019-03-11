@@ -15,9 +15,7 @@ describe('withHandlers', () => {
     }
 
     subject = require('../exampleContainer').withHandlers
-    SomeDumbComponent = function (props) {
-      return (<div>Dumb Component</div>)
-    }
+    SomeDumbComponent = (props) => (<div>Dumb Component</div>)
 
     ContainerComponent = subject(SomeDumbComponent)
   })

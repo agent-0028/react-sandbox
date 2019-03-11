@@ -20,9 +20,8 @@ describe('exampleContainer with Redux', () => {
     authActions = td.replace('../actions/async/auth')
 
     subject = require('../exampleContainer').default
-    SomeDumbComponent = function (props) {
-      return (<div>Dumb Component</div>)
-    }
+    SomeDumbComponent = (props) => (<div>Dumb Component</div>)
+
     ContainerComponent = subject(SomeDumbComponent)
   })
 
