@@ -51,8 +51,7 @@ describe('withHandlers', () => {
 
     describe('wrapped component props', () => {
       beforeEach(() => {
-        testProps = { ...defaultProps }
-        testProps.logOut = td.func()
+        testProps = { ...defaultProps, logOut: td.func() }
 
         wrapper = mount(
           <ContainerComponent {...testProps} />
@@ -89,9 +88,11 @@ describe('withHandlers', () => {
     context('when logged in', () => {
       describe('wrapped component props', () => {
         beforeEach(() => {
-          testProps = { ...defaultProps }
-          testProps.loggedIn = true
-          testProps.name = 'Jane Doe'
+          testProps = {
+            ...defaultProps,
+            loggedIn: true,
+            name: 'Jane Doe'
+          }
 
           wrapper = mount(
             <ContainerComponent {...testProps} />
@@ -114,8 +115,7 @@ describe('withHandlers', () => {
   context('when props change after mount', () => {
     context('when props change from logged in to not logged in', () => {
       it('changes the logged in status message to tell user they just logged out', () => {
-        testProps = { ...defaultProps }
-        testProps.loggedIn = true
+        testProps = { ...defaultProps, loggedIn: true }
 
         wrapper = mount(
           <ContainerComponent {...testProps} />
@@ -129,8 +129,7 @@ describe('withHandlers', () => {
 
     context('when props change from logged out to logged in', () => {
       it("provides a logged in status message with the user's name", () => {
-        testProps = { ...defaultProps }
-        testProps.loggedIn = false
+        testProps = { ...defaultProps, loggedIn: false }
 
         wrapper = mount(
           <ContainerComponent {...testProps} />
