@@ -27,8 +27,7 @@ describe('Example', () => {
   })
 
   it('renders a button with a click handler', () => {
-    testProps = { ...defaultProps }
-    testProps.onButtonClick = td.func()
+    testProps = { ...defaultProps, onButtonClick: td.func() }
     wrapper = shallow(
       <Subject {...testProps} />
     )
@@ -80,8 +79,7 @@ describe('Example', () => {
 
   context('when numHearts is five', () => {
     it('renders five hearts', () => {
-      testProps = { ...defaultProps }
-      testProps.numHearts = 5
+      testProps = { ...defaultProps, numHearts: 5 }
       wrapper = shallow(
         <Subject {...testProps} />
       )
@@ -93,9 +91,10 @@ describe('Example', () => {
 
   context('when showLogInButton is true', () => {
     beforeEach(() => {
-      testProps = { ...defaultProps }
-      testProps.showLogInButton = true
-      testProps.onLogInClick = td.func()
+      testProps = { ...defaultProps,
+        showLogInButton: true,
+        onLogInClick: td.func()
+      }
     })
 
     it('renders a button that handles log in', () => {
@@ -113,9 +112,10 @@ describe('Example', () => {
 
   context('when showLogOutButton is true', () => {
     beforeEach(() => {
-      testProps = { ...defaultProps }
-      testProps.showLogOutButton = true
-      testProps.onLogOutClick = td.func()
+      testProps = { ...defaultProps,
+        showLogOutButton: true,
+        onLogOutClick: td.func()
+      }
     })
 
     it('renders a button that handles log out', () => {
