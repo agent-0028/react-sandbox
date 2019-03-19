@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import { logIn, logOut } from './actions/async/auth'
+import { logIn as logInAction, logOut as logOutAction } from './actions/async/auth'
 import { FAKE_TOKEN, LOGGED_OUT_TEXT, JUST_LOGGED_OUT_TEXT, LOGGED_IN_TEXT_PRE } from './constants'
 
 const withHandlers = (ComponentToWrap) => {
@@ -73,19 +72,21 @@ const mapStateToProps = (state) => ({
   name: state.auth.name
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  logOut: () => {
-    return dispatch(logOut())
-  },
+const mapDispatchToProps = (logIn, logOut) => (dispatch) => ({
   logIn: () => {
     return dispatch(logIn(FAKE_TOKEN))
+  },
+  logOut: () => {
+    return dispatch(logOut())
   }
 })
 
-const withStateAndHandlers = (ComponentToWrap) => connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withHandlers(ComponentToWrap))
+const withStateAndHandlers = (ComponentToWrap, logIn = logInAction, logOut = logOutAction) => {
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps(logIn, logOut)
+  )(withHandlers(ComponentToWrap))
+}
 
 export { withHandlers }
 export default withStateAndHandlers

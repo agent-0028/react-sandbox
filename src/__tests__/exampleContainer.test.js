@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store'
 import { FAKE_TOKEN } from '../constants'
 
 describe('exampleContainer with Redux', () => {
-  let subject, SomeDumbComponent, ContainerComponent, initialState, store, authActions
+  let subject, SomeDumbComponent, ContainerComponent, initialState, store, mockAuthActions
 
   beforeEach(() => {
     initialState = {
@@ -17,12 +17,15 @@ describe('exampleContainer with Redux', () => {
     const mockStore = configureStore()
     store = mockStore(initialState)
 
-    authActions = td.replace('../actions/async/auth')
+    mockAuthActions = {
+      logIn: td.func(),
+      logOut: td.func()
+    }
 
     subject = require('../exampleContainer').default
     SomeDumbComponent = (props) => (<div>Dumb Component</div>)
 
-    ContainerComponent = subject(SomeDumbComponent)
+    ContainerComponent = subject(SomeDumbComponent, mockAuthActions.logIn, mockAuthActions.logOut)
   })
 
   it('maps state to props', () => {
@@ -49,7 +52,7 @@ describe('exampleContainer with Redux', () => {
       containerComponentProps = wrapper.find('ExampleContainer').props()
     })
     it('maps dispatch of logIn to props', () => {
-      td.when(authActions.logIn(FAKE_TOKEN)).thenReturn({
+      td.when(mockAuthActions.logIn(FAKE_TOKEN)).thenReturn({
         type: 'SOME_ACTION'
       })
 
@@ -63,7 +66,7 @@ describe('exampleContainer with Redux', () => {
     })
 
     it('maps dispatch of logOut to props', () => {
-      td.when(authActions.logOut()).thenReturn({
+      td.when(mockAuthActions.logOut()).thenReturn({
         type: 'SOME_OTHER_ACTION'
       })
 
