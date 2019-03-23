@@ -5,7 +5,7 @@ import { mount } from 'enzyme'
 import { LOGGED_OUT_TEXT, JUST_LOGGED_OUT_TEXT, LOGGED_IN_TEXT_PRE } from '../constants'
 
 describe('withHandlers', () => {
-  let subject, defaultProps, testProps, SomeDumbComponent, ContainerComponent, dumbComponentProps, wrapper
+  let subject, defaultProps, testProps, SomePresentationalComponent, ContainerComponent, dumbComponentProps, wrapper
 
   beforeEach(() => {
     defaultProps = {
@@ -15,9 +15,9 @@ describe('withHandlers', () => {
     }
 
     subject = require('../exampleContainer').withHandlers
-    SomeDumbComponent = (props) => (<div>Dumb Component</div>)
+    SomePresentationalComponent = (props) => (<div>Presentational Component</div>)
 
-    ContainerComponent = subject(SomeDumbComponent)
+    ContainerComponent = subject(SomePresentationalComponent)
   })
 
   it('renders without crashing', () => {
@@ -57,7 +57,7 @@ describe('withHandlers', () => {
           <ContainerComponent {...testProps} />
         )
 
-        dumbComponentProps = wrapper.find('SomeDumbComponent').props()
+        dumbComponentProps = wrapper.find('SomePresentationalComponent').props()
       })
 
       it('provides a click handler for this silly button', () => {
@@ -98,7 +98,7 @@ describe('withHandlers', () => {
             <ContainerComponent {...testProps} />
           )
 
-          dumbComponentProps = wrapper.find('SomeDumbComponent').props()
+          dumbComponentProps = wrapper.find('SomePresentationalComponent').props()
         })
 
         it("provides a logged in status message with the user's name", () => {
@@ -154,7 +154,7 @@ describe('withHandlers', () => {
       })
 
       it('tells the wrapped component to render five hearts', () => {
-        const found = wrapper.find('SomeDumbComponent')
+        const found = wrapper.find('SomePresentationalComponent')
         expect(found.prop('numHearts')).toEqual(5)
       })
     })
