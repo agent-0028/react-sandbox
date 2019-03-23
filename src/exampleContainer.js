@@ -74,12 +74,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  logOut: () => {
-    return dispatch(logOut())
-  },
-  logIn: () => {
-    return dispatch(logIn(FAKE_TOKEN))
-  }
+  logOut: () => dispatch(logOut()),
+  logIn: () => dispatch(logIn(FAKE_TOKEN))
 })
 
 const withStateAndHandlers = (ComponentToWrap) => connect(
