@@ -83,6 +83,22 @@ describe('withHandlers', () => {
       it('tells the wrapped component how many hearts to render', () => {
         expect(dumbComponentProps.numHearts).toEqual(0)
       })
+
+      context('when there are five clicks', () => {
+        beforeEach(() => {
+          testProps = { ...defaultProps }
+
+          wrapper = mount(
+            <ContainerComponent {...testProps} />
+          )
+          wrapper.setState({ clickCount: 5 })
+        })
+
+        it('tells the wrapped component to render five hearts', () => {
+          const found = wrapper.find('SomePresentationalComponent')
+          expect(found.prop('numHearts')).toEqual(5)
+        })
+      })
     })
 
     context('when logged in', () => {
@@ -138,24 +154,6 @@ describe('withHandlers', () => {
         wrapper.setProps({ loggedIn: true, name: 'John Doe' })
 
         expect(wrapper.state('loggedInStatusMessage')).toEqual(`${LOGGED_IN_TEXT_PRE}"John Doe"`)
-      })
-    })
-  })
-
-  context('when there are five clicks', () => {
-    describe('wrapped component props', () => {
-      beforeEach(() => {
-        testProps = { ...defaultProps }
-
-        wrapper = mount(
-          <ContainerComponent {...testProps} />
-        )
-        wrapper.setState({ clickCount: 5 })
-      })
-
-      it('tells the wrapped component to render five hearts', () => {
-        const found = wrapper.find('SomePresentationalComponent')
-        expect(found.prop('numHearts')).toEqual(5)
       })
     })
   })

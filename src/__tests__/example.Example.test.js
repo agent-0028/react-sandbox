@@ -112,7 +112,8 @@ describe('Example', () => {
 
   context('when showLogOutButton is true', () => {
     beforeEach(() => {
-      testProps = { ...defaultProps,
+      testProps = {
+        ...defaultProps,
         showLogOutButton: true,
         onLogOutClick: td.func()
       }
