@@ -28,8 +28,8 @@ const Example = (props) => {
         <div className="logged-in-status-message" data-jest="logged-in-status-message">
           {loggedInStatusMessage}
         </div>
-        { showLogInButton ? <button className="log-in" data-jest="log-in-button" onClick={onLogInClick}>{LOG_IN_BUTTON_TEXT}</button> : null }
-        { showLogOutButton ? <button className="log-out" data-jest="log-out-button" onClick={onLogOutClick}>{LOG_OUT_BUTTON_TEXT}</button> : null }
+        { showLogInButton && <button className="log-in" data-jest="log-in-button" onClick={onLogInClick}>{LOG_IN_BUTTON_TEXT}</button> }
+        { showLogOutButton && <button className="log-out" data-jest="log-out-button" onClick={onLogOutClick}>{LOG_OUT_BUTTON_TEXT}</button> }
       </header>
     </div>
   )
