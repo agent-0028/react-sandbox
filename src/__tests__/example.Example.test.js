@@ -91,7 +91,8 @@ describe('Example', () => {
 
   context('when showLogInButton is true', () => {
     beforeEach(() => {
-      testProps = { ...defaultProps,
+      testProps = {
+        ...defaultProps,
         showLogInButton: true,
         onLogInClick: td.func()
       }
