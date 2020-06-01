@@ -7,8 +7,6 @@ export const logIn = (authData) => {
   }
 }
 
-export const logOut = () => {
-  return {
-    type: 'LOG_OUT'
-  }
-}
+export const logOut = () => ({
+  type: 'LOG_OUT'
+})

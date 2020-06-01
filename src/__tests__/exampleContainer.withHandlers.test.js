@@ -5,7 +5,7 @@ import { mount } from 'enzyme'
 import { LOGGED_OUT_TEXT, JUST_LOGGED_OUT_TEXT, LOGGED_IN_TEXT_PRE } from '../constants'
 
 describe('withHandlers', () => {
-  let subject, defaultProps, testProps, SomeDumbComponent, ContainerComponent, dumbComponentProps, wrapper
+  let subject, defaultProps, testProps, SomePresentationalComponent, ContainerComponent, dumbComponentProps, wrapper
 
   beforeEach(() => {
     defaultProps = {
@@ -15,11 +15,9 @@ describe('withHandlers', () => {
     }
 
     subject = require('../exampleContainer').withHandlers
-    SomeDumbComponent = function (props) {
-      return (<div>Dumb Component</div>)
-    }
+    SomePresentationalComponent = (props) => (<div>Presentational Component</div>)
 
-    ContainerComponent = subject(SomeDumbComponent)
+    ContainerComponent = subject(SomePresentationalComponent)
   })
 
   it('renders without crashing', () => {
@@ -53,14 +51,13 @@ describe('withHandlers', () => {
 
     describe('wrapped component props', () => {
       beforeEach(() => {
-        testProps = { ...defaultProps }
-        testProps.logOut = td.func()
+        testProps = { ...defaultProps, logOut: td.func() }
 
         wrapper = mount(
           <ContainerComponent {...testProps} />
         )
 
-        dumbComponentProps = wrapper.find('SomeDumbComponent').props()
+        dumbComponentProps = wrapper.find('SomePresentationalComponent').props()
       })
 
       it('provides a click handler for this silly button', () => {
@@ -86,20 +83,38 @@ describe('withHandlers', () => {
       it('tells the wrapped component how many hearts to render', () => {
         expect(dumbComponentProps.numHearts).toEqual(0)
       })
+
+      context('when there are five clicks', () => {
+        beforeEach(() => {
+          testProps = { ...defaultProps }
+
+          wrapper = mount(
+            <ContainerComponent {...testProps} />
+          )
+          wrapper.setState({ clickCount: 5 })
+        })
+
+        it('tells the wrapped component to render five hearts', () => {
+          const found = wrapper.find('SomePresentationalComponent')
+          expect(found.prop('numHearts')).toEqual(5)
+        })
+      })
     })
 
     context('when logged in', () => {
       describe('wrapped component props', () => {
         beforeEach(() => {
-          testProps = { ...defaultProps }
-          testProps.loggedIn = true
-          testProps.name = 'Jane Doe'
+          testProps = {
+            ...defaultProps,
+            loggedIn: true,
+            name: 'Jane Doe'
+          }
 
           wrapper = mount(
             <ContainerComponent {...testProps} />
           )
 
-          dumbComponentProps = wrapper.find('SomeDumbComponent').props()
+          dumbComponentProps = wrapper.find('SomePresentationalComponent').props()
         })
 
         it("provides a logged in status message with the user's name", () => {
@@ -116,8 +131,7 @@ describe('withHandlers', () => {
   context('when props change after mount', () => {
     context('when props change from logged in to not logged in', () => {
       it('changes the logged in status message to tell user they just logged out', () => {
-        testProps = { ...defaultProps }
-        testProps.loggedIn = true
+        testProps = { ...defaultProps, loggedIn: true }
 
         wrapper = mount(
           <ContainerComponent {...testProps} />
@@ -131,8 +145,7 @@ describe('withHandlers', () => {
 
     context('when props change from logged out to logged in', () => {
       it("provides a logged in status message with the user's name", () => {
-        testProps = { ...defaultProps }
-        testProps.loggedIn = false
+        testProps = { ...defaultProps, loggedIn: false }
 
         wrapper = mount(
           <ContainerComponent {...testProps} />
@@ -141,24 +154,6 @@ describe('withHandlers', () => {
         wrapper.setProps({ loggedIn: true, name: 'John Doe' })
 
         expect(wrapper.state('loggedInStatusMessage')).toEqual(`${LOGGED_IN_TEXT_PRE}"John Doe"`)
-      })
-    })
-  })
-
-  context('when there are five clicks', () => {
-    describe('wrapped component props', () => {
-      beforeEach(() => {
-        testProps = { ...defaultProps }
-
-        wrapper = mount(
-          <ContainerComponent {...testProps} />
-        )
-        wrapper.setState({ clickCount: 5 })
-      })
-
-      it('tells the wrapped component to render five hearts', () => {
-        const found = wrapper.find('SomeDumbComponent')
-        expect(found.prop('numHearts')).toEqual(5)
       })
     })
   })

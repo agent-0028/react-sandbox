@@ -67,31 +67,21 @@ const withHandlers = (ComponentToWrap) => {
   return ExampleContainer
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loggedIn: state.auth.loggedIn,
-    token: state.auth.token,
-    name: state.auth.name
-  }
-}
+const mapStateToProps = (state) => ({
+  loggedIn: state.auth.loggedIn,
+  token: state.auth.token,
+  name: state.auth.name
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logOut: () => {
-      return dispatch(logOut())
-    },
-    logIn: () => {
-      return dispatch(logIn(FAKE_TOKEN))
-    }
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  logOut: () => dispatch(logOut()),
+  logIn: () => dispatch(logIn(FAKE_TOKEN))
+})
 
-const withStateAndHandlers = (ComponentToWrap) => {
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withHandlers(ComponentToWrap))
-}
+const withStateAndHandlers = (ComponentToWrap) => connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withHandlers(ComponentToWrap))
 
 export { withHandlers }
 export default withStateAndHandlers
