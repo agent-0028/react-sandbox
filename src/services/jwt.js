@@ -1,3 +1,5 @@
 import jwtDecode from 'jwt-decode'
 
-export default (value) => jwtDecode(value)
+const decode = (value) => jwtDecode(value)
+
+export default decode
